@@ -1,2 +1,0 @@
-# 2
-Segunnda actividad
