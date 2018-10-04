@@ -1,8 +1,15 @@
 ---
-title: "Mundor"
+title: "Mundo R"
 author: "Edison Alexis Toro Sanchez"
 date: "27 de septiembre de 2018"
-output: html_document
+output:
+  html_document:
+    theme: readable
+    df_print: paged
+    toc: yes
+    toc_float:
+      collapsed: false
+      smooth_scroll: false
 ---
 
 ```{r setup, include=FALSE}
@@ -422,3 +429,228 @@ head(df1, n = 1)
 tail(df1, n = 1)
 
 ```
+
+# Coerción
+
+## Implicita
+
+Connnversión automatica que R le da a elementos atomicos de manera
+automatica para que queden de un mismo tipo.
+
+```{r}
+
+coer.imp<- c(2,"TEXTO",TRUE)
+coer.imp
+
+class(coer.imp)
+
+```
+
+## Explicita
+
+Cuando se realiza de manera dirigida en este caso uno controla el
+proceso de coerción, todas empiezan por as.innteger por ejemplo, as.character.
+
+```{r}
+as.numeric(coer.imp)
+as.logical(coer.imp)
+as.character(coer.imp)
+
+df2 <-as.data.frame(mi.lista1)
+df2
+
+```
+
+# Subconjuntos
+
+-  []: operador para obtener subconjuntos de diferentes objetos
+(usualmente vectores, matrices y bases de datos).
+
+
+-  [[]]: operador para obtener subconjuntos de diferentes objetos
+(usualmente listas y bases de datos).
+
+
+-  $: operador que permite acceder a las variables de una lista o base
+de datos.
+
+-  Función subset(): suconjuntos con determinadas condiciones de 
+filtrado.
+
+```{r}
+
+edades <- c(23, 25, 20, 17, 21, 22, 21, 21, 28)
+edades
+edadedison <- edades[9]
+edadedison
+edades[1:3]
+edades[c(1, 2, 3)]
+edades[1:5]
+edades[c(1, 5, 9)]
+
+#Formas de seleccionar diferentes elementos del vector, tanto por ubicacion como por secuencia.
+
+```
+
+##Subconjuntos con matrices
+
+```{r}
+matriz1<- matrix(data=c(1:6),nrow = 3, ncol = 2)
+matriz1
+matriz1[1,1] #para obtener el primer numero de la matriz
+matriz1[3,2]
+matriz1[2,2]
+matriz1[c(1,2),2]
+```
+
+##Subconjuntos de listas
+
+```{r}
+
+mi.lista <- list(edimer=25, unal="Medellin",
+                  personas = c(1, 15, 28,35))
+mi.lista$edimer
+mi.lista$personas
+mi.lista$personas[3]
+mi.lista[[3]][3]
+mi.lista[[3]][mi.lista$personas>=15]
+
+```
+
+##Subconjuntos con dataframe (base de datos)
+
+```{r}
+
+datos <- data.frame(Color = c("Morado","Rosado","Negro","Gris"),
+                    Pc = c("Acer","Toshiba", "Asus", "Emachines"),
+                    anios= c(6, 5, 1, NA))
+datos
+
+datos[1, 2]
+datos[[2]][1]
+datos$Pc[1]
+datos[1,]
+datos[, 3]
+
+```
+
+#Concatenar Datos
+
+-  cbind(): concatenar por columna.
+
+-  rbind(): concatenar por fila.
+
+##Concatenar por columnas
+
+```{r}
+
+x <- 1:5
+y <- 6:10
+x
+y
+cbind(x, y)
+z <- c("a", "b", "c", "d", "e")
+cbind(x, z)
+
+#En los casos en los cuales se concatenan datos de diferente tipo R los lleva a datos similares
+
+```
+
+##Concatenar por filas
+
+```{r}
+
+rbind(x, y)
+rbind(x[4:5], y[4:5])
+
+```
+
+##Diferente dimensión
+
+```{r}
+
+x2 <- c(1:4, NA)
+y2 <- 6:10
+cbind(x2, y2)
+
+```
+
+##Agreganndo Columna
+
+```{r}
+
+datos
+datos2 <- cbind(datos, espacioGb= c(500, 1000, 500, 250))
+datos2
+```
+
+##Agregando filas
+
+```{r}
+
+datos3 <- data.frame(Color= "Azul", Pc= "HP", anios= 5, espacioGb= 1000) 
+datos4 <- rbind(datos2, datos3)
+datos4
+
+```
+
+#Lectura de datos
+
+## Funciones:
+
+  +   read.csv(): valores separados por comas.
+  +   read.csv2(): valores separados por punto y coma.
+  +   read.table(): valores separados por espacios en blanco.
+
+```{r}
+
+creditos <- read.csv("Colocaciones_De_Credito_Sector_Agropecuario_2017.csv"
+                     , encoding = "UTF-8")
+creditos[1:5, 1:6]
+
+```
+
+#Escritura de datos
+
+Funciones:
+
+  write.csv()  
+  write.csv2()  
+  write.table()  
+
+```{r}
+
+write.csv(creditos, file = "Creditos.csv",
+          row.names = FALSE)
+
+```
+
+#Cambiando formato
+
+Función save(): guardar (escribir) datos en formato .Rdata.  
+
+
+Función load(): cargar (leer) datos en formato .Rdata.
+
+```{r}
+
+save(creditos, file = "Creditos_2017.Rdata")
+
+
+```
+
+# Cargando datos en .Rdata
+
+```{r}
+
+load(file = "Creditos_2017.Rdata")
+
+
+```
+
+
+
+
+
+
+
