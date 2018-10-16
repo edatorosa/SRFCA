@@ -1,0 +1,142 @@
+---
+title: "Actividad 2 Creditos"
+author: "Edison Alexis Toro Sanchez"
+date: "4 de octubre de 2018"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+#Datos créditos agropecuarios 2017
+
+```{r}
+
+load("Creditos_2017.Rdata")
+head(creditos)
+
+```
+
+# Estructura interna
+
+```{r}
+
+str(creditos)
+
+```
+
+# Dimensión de los datos
+
+```{r}
+
+dim(creditos)
+class(creditos$Departamento.Inversion)
+levels(creditos$Departamento.Inversion)
+
+```
+
+# Nueva variable Creditos 2
+
+```{r}
+creditos2 <- creditos[creditos$Valor.Inversion >= 100000 &
+                        creditos$Valor.Inversion <= 500000000, c("Mes", "Tipo.Productor",
+                                                                 "Valor.Inversion",
+                                                                 "Departamento.Inversion",
+                                                          "Departamento.de.Colocacion.de.Credito",
+                                                                 "Plazo", "Genero")]
+head(creditos2)
+
+```
+
+
+# Cambio de Nombres
+
+```{r}
+
+names(creditos2) <- c("Mes", "Tipo.pro", "Val.inv", "Depto.inv", "Depto.col", "Plazo", "Genero")
+head(creditos2)
+
+```
+
+# Estructura Interna creditos 2
+
+```{r}
+
+str(creditos2)
+
+# Coercion sobre el tipo Mes (tipo Factor)
+
+creditos2$Mes <- as.factor(creditos2$Mes) 
+#primera forma
+
+creditos2[ , 1] <- as.factor(creditos2[ , 1])
+#segunda Forma
+
+str(creditos2)
+
+
+```
+
+# Frecuencia absoluta de Género
+
+```{r}
+
+table(creditos2$Genero)
+
+```
+
+# Frecuencia relativa  de género
+
+```{r}
+
+prop.table(table(creditos2$Genero)) * 100
+
+```
+
+# Proporción tipo de productor
+
+```{r}
+
+prop.table(table(creditos2$Tipo.pro)) * 100
+
+```
+
+# Creditos en Antioquia
+
+```{r}
+
+antioquia <- creditos2[creditos2$Depto.inv == "ANTIOQUIA",]
+table(antioquia$Mes)
+prop.table(table(antioquia$Mes)) *100
+
+
+```
+
+# Departamento de inversión vs colocación
+
+```{r}
+
+# Con igualdad
+table(creditos2$Depto.inv == creditos2$Depto.col)
+prop.table(table(creditos2$Depto.inv == creditos2$Depto.col)) * 100 
+
+# Con diferencia
+table(creditos2$Depto.inv != creditos2$Depto.col)
+prop.table(table(creditos2$Depto.inv != creditos2$Depto.col)) * 100 
+
+
+```
+
+# Mes de mayor inversión y proporción de tipo de productor en ese mes.
+
+```{r}
+
+prop.table(table(creditos2$Mes)) * 100
+
+junio <- creditos2[creditos2$Mes == "6",]
+prop.table(table(junio$Tipo.pro)) * 100
+
+
+```
+
